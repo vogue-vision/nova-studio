@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#100d20">
+  <title>Nova Studio — AI Roblox Video Studio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">✦</span><span>NOVA<span class="brand-light">STUDIO</span><small>ROBLOX VIDEO LAB</small></span></a>
+      <button class="new-project" id="newProject">＋ New project</button>
+      <div class="nav-label">WORKSPACE</div>
+      <button class="nav-item active" data-view="create">▣ <span>Create video</span></button>
+      <button class="nav-item" data-view="projects">▤ <span>My projects</span></button>
+      <button class="nav-item" data-view="characters">♙ <span>Characters</span></button>
+      <div class="sidebar-bottom">
+        <div class="free-card"><span class="spark">✦</span><b>Free workspace</b><p>Your projects stay in this browser. Connect a backend later for accounts and cloud saving.</p></div>
+        <div class="profile"><div class="avatar">N</div><span><b>Creator workspace</b><small>Guest mode</small></span><span class="dots">•••</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><span class="eyebrow">CREATOR WORKSPACE</span><h1 id="pageTitle">Create your next story</h1></div>
+        <div class="top-actions"><span class="status"><i></i> Free MVP</span><button class="outline-btn" id="saveProject">Save project</button><button class="primary-btn" id="exportProject">Export ↗</button></div>
+      </header>
+
+      <section id="createView" class="view">
+        <div class="welcome-banner">
+          <div><span class="pill">✦ YOUR STORY, YOUR WORLD</span><h2>Turn an idea into a<br><em>Roblox-style video.</em></h2><p>Build a scene-by-scene story or bring your own gameplay clips. Start creating for free.</p></div>
+          <div class="banner-art"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="mini-city">▥ ▥ ▥ ▥</div><div class="banner-caption">IMAGINE<br>IT. CREATE<br>IT.</div></div>
+        </div>
+
+        <div class="mode-row">
+          <button class="mode-tab selected" data-mode="story"><span>✧</span><b>Story to video</b><small>Start with a prompt</small></button>
+          <button class="mode-tab" data-mode="upload"><span>▧</span><b>Upload & edit clips</b><small>Use your own footage</small></button>
+        </div>
+
+        <div id="storyMode" class="creator-panel">
+          <div class="section-heading"><div><span class="eyebrow">01 / STORY BUILDER</span><h3>What happens in your video?</h3></div><span class="muted">Create a storyboard</span></div>
+          <label class="field-label" for="storyPrompt">Describe your story</label>
+          <textarea id="storyPrompt" rows="4" placeholder="Example: A shy student discovers she can control every superpower. Her friends help her stop a mysterious villain from destroying their city..."></textarea>
+          <div class="form-row">
+            <div class="field"><label class="field-label" for="genre">Video style</label><select id="genre"><option>Superhero / action</option><option>School drama</option><option>Horror / mystery</option><option>Funny roleplay</option><option>Adventure / fantasy</option><option>Romance / friendship</option></select></div>
+            <div class="field"><label class="field-label" for="length">Story length</label><select id="length"><option value="5">Short — 5 scenes</option><option value="8" selected>Episode — 8 scenes</option><option value="10">Long — 10 scenes</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label class="field-label" for="heroName">Main character</label><input id="heroName" value="Amara" placeholder="Character name"></div>
+            <div class="field"><label class="field-label" for="power">Main power / trait</label><input id="power" value="Power absorption" placeholder="e.g. lightning, invisibility"></div>
+          </div>
+          <button class="primary-btn wide" id="generateStory">✦ Generate scene breakdown <span>→</span></button>
+          <p class="fineprint">This free prototype turns your prompt into an editable storyboard locally. Real AI image/video generation can be connected later.</p>
+        </div>
+
+        <div id="uploadMode" class="creator-panel hidden">
+          <div class="section-heading"><div><span class="eyebrow">01 / CLIP EDITOR</span><h3>Bring your Roblox footage</h3></div><span class="muted">MP4, WebM, MOV*</span></div>
+          <label class="upload-zone" for="clipInput"><span class="upload-icon">⇧</span><b>Drop video clips here or browse files</b><small>Select video files from your device. Clips are previewed locally and are not uploaded.</small><input id="clipInput" type="file" accept="video/*" multiple></label>
+          <div id="clipList" class="clip-list"><div class="empty-state">Your uploaded clips will appear here.</div></div>
+          <div class="field"><label class="field-label" for="clipTitle">Project title</label><input id="clipTitle" value="My Roblox montage"></div>
+          <button class="primary-btn wide" id="makeClipProject">Create clip project <span>→</span></button>
+          <p class="fineprint">*Your browser must support the selected video format. This MVP does not render a finished MP4 yet.</p>
+        </div>
+
+        <div class="workspace-grid">
+          <section class="panel storyboard-panel">
+            <div class="panel-head"><div><span class="eyebrow">02 / YOUR PROJECT</span><h3>Scene storyboard</h3></div><button class="text-btn" id="addScene">＋ Add scene</button></div>
+            <div id="sceneGrid" class="scene-grid"><div class="empty-story"><div>✧</div><b>Your storyboard starts here</b><p>Describe your story above and generate your first scenes.</p></div></div>
+          </section>
+          <aside class="panel preview-panel">
+            <div class="panel-head"><div><span class="eyebrow">LIVE PREVIEW</span><h3>Scene details</h3></div><span class="live-dot">● READY</span></div>
+            <div id="scenePreview" class="scene-preview"><div class="preview-symbol">✦</div><b>Select a scene</b><p>Choose a storyboard card to edit its details.</p></div>
+            <div class="preview-fields hidden" id="previewFields">
+              <label class="field-label" for="editSceneTitle">Scene title</label><input id="editSceneTitle">
+              <label class="field-label" for="editSceneDesc">Action / visual direction</label><textarea id="editSceneDesc" rows="3"></textarea>
+              <label class="field-label" for="editDialogue">Dialogue / voiceover</label><textarea id="editDialogue" rows="2"></textarea>
+              <button class="outline-btn danger" id="deleteScene">Delete scene</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="projectsView" class="view hidden">
+        <div class="section-heading"><div><span class="eyebrow">YOUR WORK</span><h3>My projects</h3></div><button class="primary-btn" id="projectsNew">＋ New project</button></div>
+        <div id="projectsList" class="projects-list"></div>
+      </section>
+      <section id="charactersView" class="view hidden">
+        <div class="section-heading"><div><span class="eyebrow">CHARACTER LAB</span><h3>Build your cast</h3></div></div>
+        <div class="character-grid">
+          <div class="character-card char-purple"><div class="character-art">♙</div><b>Amara</b><small>Power absorber · Hero</small></div>
+          <div class="character-card char-blue"><div class="character-art">ϟ</div><b>Jayden</b><small>Lightning · Best friend</small></div>
+          <div class="character-card char-red"><div class="character-art">♨</div><b>Zaria</b><small>Fire · Rival</small></div>
+          <div class="character-card char-dark"><div class="character-art">◈</div><b>Kai</b><small>Shadow · Mystery</small></div>
+        </div>
+        <p class="fineprint">Character cards are starter concepts. Add your own Roblox avatar screenshots or artwork when you develop the full studio.</p>
+      </section>
+      <footer>© 2026 NOVA STUDIO · Independent creator tool concept · Not affiliated with Roblox Corporation.</footer>
+    </main>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
